@@ -2,8 +2,12 @@ import express from "express";
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/", (request, response) => {
-  return response.json({ msg: "Ignite" });
+  const { name } = request.query;
+
+  return response.json({ name });
 });
 
 app.listen(3333, () => {
