@@ -1,11 +1,10 @@
 # dependencies
 node_modules
 
-# env
+# project
 .env
-
-# build
 dist
+tmp/*
 
 # misc
 package-lock.json
