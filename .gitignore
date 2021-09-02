@@ -1,10 +1,13 @@
 # dependencies
 node_modules
+package-lock.json
 
 # project
-.env
 dist
 tmp/*
 
-# misc
-package-lock.json
+# enviroment
+.env
+ormconfig.json
+
+
