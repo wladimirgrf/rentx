@@ -3,7 +3,7 @@ import swaggerUi from "swagger-ui-express";
 
 import "express-async-errors";
 import "./database";
-import "./shared/container";
+import "@shared/container";
 
 import { errorHandler } from "./middlewares/errorHandler";
 import { routes } from "./routes";
