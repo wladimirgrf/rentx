@@ -1,9 +1,11 @@
 import { ICreateCarDTO } from "../dtos/ICreateCarDTO";
+import { IListCarsDTO } from "../dtos/IListCarDTO";
 import { Car } from "../infra/typeorm/entities/Car";
 
 interface ICarsRepository {
   create(data: ICreateCarDTO): Promise<Car>;
   findByLicensePlate(license_plate: string): Promise<Car>;
+  findAvailable(data?: IListCarsDTO): Promise<Car[]>;
 }
 
 export { ICarsRepository };
