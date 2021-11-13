@@ -5,6 +5,7 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { authenticateRoutes } from "./authenticate.routes";
 import { carsPublicRoutes, carsAdminRoutes } from "./cars.routes";
 import { categoriesRoutes, categoriesAdminRoutes } from "./categories.routes";
+import { rentalsRoutes } from "./rentals.routes";
 import { specificationsRoutes } from "./specifications.routes";
 import { usersRoutes } from "./users.routes";
 
@@ -20,6 +21,7 @@ routes.use(ensureAuthenticated);
 routes.use("/categories", categoriesRoutes);
 routes.use("/specifications", specificationsRoutes);
 routes.use("/users", usersRoutes);
+routes.use("/rentals", rentalsRoutes);
 
 routes.use(ensureAdmin);
 
