@@ -44,4 +44,28 @@ describe("Create Category Controller", () => {
 
     expect(response.status).toBe(201);
   });
+
+  it("should not be able to create a new category with an existing name", async () => {
+    const user = {
+      email: "admin@rentx.com",
+      password: "password123",
+    };
+    const responseToken = await request(app).post("/sessions").send(user);
+
+    const { token } = responseToken.body;
+
+    const category = {
+      name: "Category Supertest",
+      description: "Description category supertest",
+    };
+
+    const response = await request(app)
+      .post("/categories")
+      .send(category)
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
+
+    expect(response.status).toBe(400);
+  });
 });
