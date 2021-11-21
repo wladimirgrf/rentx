@@ -11,9 +11,16 @@
   "paths": {
     "/categories": {
       "post": {
-        "tags": ["Category"],
+        "tags": [
+          "Category"
+        ],
         "summary": "Create a category",
         "description": "Create a new category",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -27,13 +34,15 @@
           "201": {
             "description": "Created"
           },
-          "500":{
+          "500": {
             "description": "Category already exists"
           }
         }
       },
-      "get":{
-        "tags": ["Category"],
+      "get": {
+        "tags": [
+          "Category"
+        ],
         "summary": "List all categories",
         "description": "Lista all categories",
         "responses": {
@@ -55,13 +64,15 @@
     },
     "/categories/import": {
       "post": {
-        "tags": ["Category"],
+        "tags": [
+          "Category"
+        ],
         "summary": "Upload categories",
-        "description": "Upload categories from a file", 
+        "description": "Upload categories from a file",
         "requestBody": {
           "content": {
             "multipart/form-data": {
-              "schema":{
+              "schema": {
                 "$ref": "#/definitions/CategoryImport"
               }
             }
@@ -76,9 +87,11 @@
     },
     "/specifications": {
       "post": {
-        "tags": ["Specification"],
+        "tags": [
+          "Specification"
+        ],
         "summary": "Create a specification",
-        "description":"Create a new specification",
+        "description": "Create a new specification",
         "requestBody": {
           "content": {
             "application/json": {
@@ -93,7 +106,33 @@
             "description": "Created"
           },
           "500": {
-            "description":"Specification already exists"
+            "description": "Specification already exists"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Authentication user",
+        "description": "Authentication user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Session"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Email or password incorrect"
           }
         }
       }
@@ -133,6 +172,28 @@
           "type": "string",
           "example": "Specification description sample"
         }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "user email"
+        },
+        "password": {
+          "type": "string",
+          "example": "user password"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
