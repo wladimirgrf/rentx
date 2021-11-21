@@ -49,12 +49,12 @@ class CreateRentalUseCase {
 
     const dateNow = this.dateProvider.dateNow();
 
-    const compareDates = this.dateProvider.compareInHours(
+    const diffInHours = this.dateProvider.compareInHours(
       dateNow,
       expected_return_date
     );
 
-    if (compareDates < minimumHour) {
+    if (diffInHours < minimumHour) {
       throw new AppError(
         "Expected return date must be more than 24 hours from now"
       );
