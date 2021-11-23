@@ -9,6 +9,32 @@
     }
   },
   "paths": {
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Authentication user",
+        "description": "Authentication user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Session"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Email or password incorrect"
+          }
+        }
+      }
+    },
     "/categories": {
       "post": {
         "tags": [
@@ -121,32 +147,6 @@
         }
       }
     },
-    "/sessions": {
-      "post": {
-        "tags": [
-          "Session"
-        ],
-        "summary": "Authentication user",
-        "description": "Authentication user",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/Session"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Email or password incorrect"
-          }
-        }
-      }
-    },
     "/cars": {
       "post": {
         "tags": [
@@ -177,6 +177,45 @@
           }
         }
       }
+    },
+    "/cars/images/{id}": {
+      "post": {
+        "tags": [
+          "Car"
+        ],
+        "summary": "Upload car images",
+        "description": "Upload car images",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Car id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/definitions/CarImages"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -199,6 +238,18 @@
         "file": {
           "type": "string",
           "format": "binary"
+        }
+      }
+    },
+    "CarImages": {
+      "type": "object",
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "binary"
+          }
         }
       }
     },
