@@ -69,6 +69,11 @@
         ],
         "summary": "Upload categories",
         "description": "Upload categories from a file",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -92,6 +97,11 @@
         ],
         "summary": "Create a specification",
         "description": "Create a new specification",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -133,6 +143,37 @@
           },
           "401": {
             "description": "Email or password incorrect"
+          }
+        }
+      }
+    },
+    "/cars": {
+      "post": {
+        "tags": [
+          "Car"
+        ],
+        "summary": "Create a new car",
+        "description": "Create a new car",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Car"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Car already exists"
           }
         }
       }
@@ -184,6 +225,39 @@
         "password": {
           "type": "string",
           "example": "user password"
+        }
+      }
+    },
+    "Car": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "car name"
+        },
+        "description": {
+          "type": "string",
+          "example": "car description"
+        },
+        "daily_rate": {
+          "type": "number",
+          "example": "daily rate"
+        },
+        "license_plate": {
+          "type": "string",
+          "example": "license plate"
+        },
+        "fine_amount": {
+          "type": "number",
+          "example": "fine amount"
+        },
+        "brand": {
+          "type": "string",
+          "example": "brand"
+        },
+        "category_id": {
+          "type": "string",
+          "example": "category id"
         }
       }
     }
