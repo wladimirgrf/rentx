@@ -27,9 +27,19 @@ describe("Create Rental", () => {
   });
 
   it("should be able to create a new rental", async () => {
+    const car = await carsRepositoryInMemory.create({
+      name: "Test",
+      description: "Car Test",
+      daily_rate: 100,
+      license_plate: "test",
+      fine_amount: 40,
+      category_id: "1234",
+      brand: "brand",
+    });
+
     const rental = await createRentalUseCase.execute({
       user_id: "12345",
-      car_id: "445577",
+      car_id: car.id,
       expected_return_date: date24hFromNow,
     });
 
@@ -38,35 +48,35 @@ describe("Create Rental", () => {
   });
 
   it("should not be able to create a new rental for a user with an active rental", async () => {
-    await createRentalUseCase.execute({
-      user_id: "12345",
-      car_id: "445577",
+    await rentalsRepositoryInMemory.create({
+      car_id: "987654",
       expected_return_date: date24hFromNow,
+      user_id: "12345",
     });
 
     await expect(
       createRentalUseCase.execute({
         user_id: "12345",
-        car_id: "787899",
+        car_id: "456789",
         expected_return_date: date24hFromNow,
       })
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError("There is an active rental for this user"));
   });
 
   it("should not be able to create a new rental for an active rental car", async () => {
-    await createRentalUseCase.execute({
-      user_id: "12345",
-      car_id: "445577",
+    await rentalsRepositoryInMemory.create({
+      car_id: "987654",
       expected_return_date: date24hFromNow,
+      user_id: "12345",
     });
 
     await expect(
       createRentalUseCase.execute({
         user_id: "994455",
-        car_id: "445577",
+        car_id: "987654",
         expected_return_date: date24hFromNow,
       })
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError("Car is unavailable"));
   });
 
   it("should not be able to create a new rental with a invalid return time", async () => {
@@ -76,6 +86,8 @@ describe("Create Rental", () => {
         car_id: "445577",
         expected_return_date: dayjs().toDate(),
       })
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(
+      new AppError("Expected return date must be more than 24 hours from now")
+    );
   });
 });

@@ -42,7 +42,7 @@ describe("Authenticate User", () => {
         email: "wrong@email.com",
         password: "1234",
       })
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError("Email or password incorrect!", 401));
   });
 
   it("should not be able to authenticate with incorrect password", async () => {
@@ -60,6 +60,6 @@ describe("Authenticate User", () => {
         email: user.email,
         password: "wrong-password",
       })
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError("Email or password incorrect!", 401));
   });
 });

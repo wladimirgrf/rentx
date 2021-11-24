@@ -52,8 +52,8 @@ describe("Create Car", () => {
       category_id: "category",
     };
 
-    await expect(createCarUseCase.execute(car2)).rejects.toBeInstanceOf(
-      AppError
+    await expect(createCarUseCase.execute(car2)).rejects.toEqual(
+      new AppError("Car already exists")
     );
   });
 
