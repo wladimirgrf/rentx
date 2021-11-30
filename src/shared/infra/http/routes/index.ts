@@ -5,6 +5,7 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { authenticateRoutes } from "./authenticate.routes";
 import { carsPublicRoutes, carsAdminRoutes } from "./cars.routes";
 import { categoriesRoutes, categoriesAdminRoutes } from "./categories.routes";
+import { passwordPublicRoutes } from "./password.routes";
 import { rentalsRoutes } from "./rentals.routes";
 import { specificationsRoutes } from "./specifications.routes";
 import { usersRoutes } from "./users.routes";
@@ -14,6 +15,7 @@ const routes = Router();
 // PUBLIC ROUTES
 routes.use(authenticateRoutes);
 routes.use("/cars", carsPublicRoutes);
+routes.use("/password", passwordPublicRoutes);
 
 routes.use(ensureAuthenticated);
 
