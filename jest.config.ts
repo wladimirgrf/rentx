@@ -9,6 +9,11 @@ export default {
 
   coverageProvider: "v8",
 
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  collectCoverageFrom: ["<rootDir>/src/modules/**/useCases/**/*.ts"],
+  coverageReporters: ["text-summary", "lcov"],
+
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: "<rootDir>/src/",
   }),

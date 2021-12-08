@@ -5,6 +5,7 @@ package-lock.json
 # project
 dist
 tmp/*
+coverage
 
 # enviroment
 .env
