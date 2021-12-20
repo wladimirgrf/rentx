@@ -8,13 +8,14 @@ import { categoriesRoutes, categoriesAdminRoutes } from "./categories.routes";
 import { passwordPublicRoutes } from "./password.routes";
 import { rentalsRoutes } from "./rentals.routes";
 import { specificationsRoutes } from "./specifications.routes";
-import { usersRoutes } from "./users.routes";
+import { usersProtectedRoutes, usersPublicRoutes } from "./users.routes";
 
 const routes = Router();
 
 // PUBLIC ROUTES
 routes.use(authenticateRoutes);
 routes.use("/cars", carsPublicRoutes);
+routes.use("/users", usersPublicRoutes);
 routes.use("/password", passwordPublicRoutes);
 
 routes.use(ensureAuthenticated);
@@ -22,7 +23,7 @@ routes.use(ensureAuthenticated);
 // PROTECTED ROUTES
 routes.use("/categories", categoriesRoutes);
 routes.use("/specifications", specificationsRoutes);
-routes.use("/users", usersRoutes);
+routes.use("/users", usersProtectedRoutes);
 routes.use("/rentals", rentalsRoutes);
 
 routes.use(ensureAdmin);
