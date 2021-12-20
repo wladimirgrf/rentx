@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, static as expressStatic } from "express";
 import multer from "multer";
 
 import uploadConfig from "@config/upload";
@@ -18,6 +18,8 @@ const uploadCarImagesController = new UploadCarImagesController();
 const upload = multer(uploadConfig);
 
 carsPublicRoutes.get("/available", listAvailableCarsController.handle);
+
+carsPublicRoutes.use("/cars", expressStatic(`${uploadConfig.tmpFolder}/cars`));
 
 carsAdminRoutes.post(
   "/specifications/:id",
