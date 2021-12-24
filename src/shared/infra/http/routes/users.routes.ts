@@ -15,18 +15,19 @@ const createUserController = new CreateUserController();
 const updateUserAvatarController = new UpdateUserAvatarController();
 const profileUserController = new ProfileUserController();
 
-usersProtectedRoutes.post("/", createUserController.handle);
+usersPublicRoutes.post("/", createUserController.handle);
+
+usersPublicRoutes.use(
+  "/avatar",
+  expressStatic(`${uploadConfig.tmpFolder}/avatar`)
+);
+
 usersProtectedRoutes.get("/profile", profileUserController.handle);
 
 usersProtectedRoutes.patch(
   "/avatar",
   uploadAvatar.single("avatar"),
   updateUserAvatarController.handle
-);
-
-usersPublicRoutes.use(
-  "/avatar",
-  expressStatic(`${uploadConfig.tmpFolder}/avatar`)
 );
 
 export { usersProtectedRoutes, usersPublicRoutes };
