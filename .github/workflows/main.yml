@@ -24,12 +24,26 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
+      - name: Server | Copy App
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "., !node_modules"
+          source: >
+            .,
+            !node_modules,
+            !src,
+            !.vscode,
+            !.git,
+            !.gitignore,
+            !.editorconfig,
+            !.eslintignore,
+            !.eslintrc.json,
+            !.dockerignore,
+            !babel.config.js,
+            !jest.config.ts,
+            !tsconfig.json,
+            !diagram.png
           target: "~/app"
