@@ -38,6 +38,7 @@ jobs:
             !.vscode,
             !.git,
             !.gitignore,
+            !.github,
             !.editorconfig,
             !.eslintignore,
             !.eslintrc.json,
