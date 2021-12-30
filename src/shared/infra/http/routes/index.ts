@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { ensureAdmin } from "../middlewares/ensureAdmin";
-import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
+import ensureAdmin from "../middlewares/ensureAdmin";
+import ensureAuthenticated from "../middlewares/ensureAuthenticated";
 import { authenticateRoutes } from "./authenticate.routes";
 import { carsPublicRoutes, carsAdminRoutes } from "./cars.routes";
 import { categoriesRoutes, categoriesAdminRoutes } from "./categories.routes";

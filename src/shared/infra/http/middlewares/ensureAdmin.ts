@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { UserRepository } from "@modules/accounts/infra/typeorm/repositories/UsersRepository";
 import { AppError } from "@shared/errors/AppError";
 
-export async function ensureAdmin(
+export default async function ensureAdmin(
   request: Request,
   response: Response,
   next: NextFunction
