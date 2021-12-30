@@ -10,7 +10,8 @@ import "@shared/container";
 import createConnection from "@shared/infra/typeorm";
 
 import swaggerFile from "../../../swagger.json";
-import { errorHandler } from "./middlewares/errorHandler";
+import errorHandler from "./middlewares/errorHandler";
+import rateLimiter from "./middlewares/rateLimiter";
 import { routes } from "./routes";
 
 createConnection();
@@ -18,6 +19,8 @@ createConnection();
 const app = express();
 
 app.use(express.json());
+
+app.use(rateLimiter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 

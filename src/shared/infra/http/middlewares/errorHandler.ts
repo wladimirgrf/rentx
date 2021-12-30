@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { AppError } from "@shared/errors/AppError";
 
-export function errorHandler(
+export default function errorHandler(
   error: Error,
   request: Request,
   response: Response,
