@@ -1,8 +1,24 @@
 {
   "name": "rentx",
+  "title": "rentx",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "license": "MIT",
+  "keywords": [
+    "rentx",
+    "api",
+    "rest-api",
+    "car-rental",
+    "rocketseat",
+    "express",
+    "nodejs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wladimirgrf/rentx"
+  },
+  "description": "Car Rental | REST API with Express",
+  "author": "Wladimir <wladimir.code@gmail.com>",
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli",
@@ -11,9 +27,6 @@
     "test": "NODE_ENV=test jest --runInBand --detectOpenHandles",
     "seed:admin": "tsnd src/shared/infra/typeorm/seed/admin.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1046.0",
     "bcryptjs": "^2.4.3",
