@@ -10,6 +10,6 @@ coverage
 
 # enviroment
 .env
-ormconfig.json
+.env.test
 
 
