@@ -25,7 +25,7 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "serve": "node dist/shared/infra/http/server.js",
     "test": "NODE_ENV=test jest --runInBand --detectOpenHandles",
-    "seed:admin": "tsnd src/shared/infra/typeorm/seed/admin.ts"
+    "seed:admin": "tsnd -r tsconfig-paths/register src/shared/infra/typeorm/seed/admin.ts"
   },
   "dependencies": {
     "aws-sdk": "^2.1046.0",
