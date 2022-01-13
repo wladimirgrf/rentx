@@ -5,6 +5,10 @@ import { app } from "@shared/infra/http/app";
 import createConnection from "@shared/infra/typeorm";
 import { createAdminUserQuery } from "@shared/infra/typeorm/seed/querys";
 
+jest.mock("@shared/infra/http/middlewares/rateLimiter", () =>
+  jest.fn((req, res, next) => next())
+);
+
 let connection: Connection;
 
 describe("List Categories Controller", () => {
@@ -17,6 +21,8 @@ describe("List Categories Controller", () => {
   });
 
   afterAll(async () => {
+    jest.clearAllMocks();
+
     await connection.dropDatabase();
     await connection.close();
   });
