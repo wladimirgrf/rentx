@@ -11,5 +11,5 @@ const storageType = {
 
 container.registerSingleton<IStorageProvider>(
   "StorageProvider",
-  container.resolve(storageType[process.env.STORAGE_TYPE])
+  storageType[process.env.STORAGE_TYPE]
 );
