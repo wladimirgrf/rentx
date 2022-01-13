@@ -4,8 +4,16 @@ package-lock.json
 
 # project
 dist
+
 tmp/*
-!tmp/.gitkeep
+tmp/avatar/*
+tmp/cars/*
+
+!tmp/cars
+!tmp/cars/.gitkeep
+!tmp/avatar
+!tmp/avatar/.gitkeep
+
 coverage
 
 # enviroment
