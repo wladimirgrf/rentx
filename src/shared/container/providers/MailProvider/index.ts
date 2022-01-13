@@ -6,12 +6,12 @@ import { SESMailProvider } from "./implementations/SESMailProvider";
 import { MailProviderInMemory } from "./in-memory/MailProviderInMemory";
 
 const mailType = {
-  ethereal: container.resolve(EtherealMailProvider),
-  ses: container.resolve(SESMailProvider),
-  test: container.resolve(MailProviderInMemory),
+  ethereal: EtherealMailProvider,
+  ses: SESMailProvider,
+  test: MailProviderInMemory,
 };
 
 container.registerInstance<IMailProvider>(
   "MailProvider",
-  mailType[process.env.MAIL_TYPE]
+  container.resolve(mailType[process.env.MAIL_TYPE])
 );

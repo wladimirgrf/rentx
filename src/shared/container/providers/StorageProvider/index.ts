@@ -5,11 +5,11 @@ import { S3StorageProvider } from "./implementations/S3StorageProvider";
 import { IStorageProvider } from "./IStorageProvider";
 
 const storageType = {
-  local: container.resolve(LocalStorageProvider),
-  s3: container.resolve(S3StorageProvider),
+  local: LocalStorageProvider,
+  s3: S3StorageProvider,
 };
 
 container.registerSingleton<IStorageProvider>(
   "StorageProvider",
-  storageType[process.env.STORAGE_TYPE || "local"]
+  container.resolve(storageType[process.env.STORAGE_TYPE])
 );
