@@ -20,17 +20,73 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Session"
+                "$ref": "#/definitions/SessionInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { 
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "$ref": "#/definitions/SessionInput"
+                        } 
+                      }
+                    },
+                    { "$ref": "#/definitions/SessionOutput" }
+                  ]
+                }
+              }
+            }
           },
           "401": {
             "description": "Email or password incorrect"
+          }
+        }
+      }
+    },
+    "/refresh-token": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Refresh token",
+        "description": "Route receives the refresh token and generates a new token with a new expiration time.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type":"object",
+                "properties": {
+                  "token": {
+                    "type":"string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHJlbnR4LmNvbSIsImlhdCI6MTYzOTkzMjM5OSwiZXhwIjoxNjQyNTI0Mzk5LCJzdWIiOiI0YmQzNzUyOS00NWMwLTQ2M2QtODAyZi00OWQ5NTgwOTk3M2UifQ.ZrU1A5tYvn4VGBVON01uT1La614yLS4ChUkgXoFdQmw"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/SessionOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
@@ -61,7 +117,7 @@
             "description": "Created"
           },
           "400": {
-            "description": "Category already exists"
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -87,7 +143,11 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Category"
+                    "allOf": [
+                      {"$ref": "#/definitions/Id"},
+                      {"$ref": "#/definitions/Category"},
+                      {"$ref": "#/definitions/CreatedAt"}
+                    ]
                   }
                 }
               }
@@ -146,7 +206,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/CreateSpecification"
+                "$ref": "#/definitions/Specification"
               }
             }
           }
@@ -156,7 +216,7 @@
             "description": "Created"
           },
           "400": {
-            "description": "Specification already exists"
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -182,7 +242,11 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Specification"
+                    "allOf": [
+                      {"$ref": "#/definitions/Id"},
+                      {"$ref": "#/definitions/Specification"},
+                      {"$ref": "#/definitions/CreatedAt"}
+                    ]
                   }
                 }
               }
@@ -210,7 +274,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/CreateCar"
+                "$ref": "#/definitions/Car"
               }
             }
           }
@@ -221,14 +285,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/Car"
+                  "allOf": [
+                    {"$ref": "#/definitions/Id"},
+                    {"$ref": "#/definitions/CarAvailable"},
+                    {"$ref": "#/definitions/Car"},
+                    {"$ref": "#/definitions/CreatedAt"}
+                  ]
                 }
               }
             }
-
           },
           "400": {
-            "description": "Car already exists"
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -283,14 +351,33 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/CarWithSpecifications"
+                  "allOf": [
+                    {"$ref": "#/definitions/Id"},
+                    {"$ref": "#/definitions/CarAvailable"},
+                    {"$ref": "#/definitions/Car"},
+                    {"$ref": "#/definitions/CreatedAt"},
+                    { 
+                      "type": "object",
+                      "properties": {
+                        "specifications": {
+                          "type": "array",
+                          "items": {
+                            "allOf": [
+                              {"$ref": "#/definitions/Id"},
+                              {"$ref": "#/definitions/Specification"},
+                              {"$ref": "#/definitions/CreatedAt"}
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
-
           },
           "400": {
-            "description": "Car does not exists"
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -324,7 +411,12 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Specification"
+                    "allOf": [
+                      {"$ref": "#/definitions/Id"},
+                      {"$ref": "#/definitions/CarAvailable"},
+                      {"$ref": "#/definitions/Car"},
+                      {"$ref": "#/definitions/CreatedAt"}
+                    ]
                   }
                 }
               }
@@ -370,7 +462,7 @@
             "description": "No Content"
           },
           "400": {
-            "description": "Car does not exists"
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -387,9 +479,9 @@
         "description": "Create a new user",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "$ref": "#/definitions/CreateUser"
+                "$ref": "#/definitions/User"
               }
             }
           }
@@ -397,6 +489,9 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       },
@@ -445,7 +540,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/User"
+                  "allOf": [
+                    {"$ref": "#/definitions/Id"},
+                    {"$ref": "#/definitions/User"},
+                    {"$ref": "#/definitions/UserAvatarUrl"}
+                  ]
                 }
               }
             }
@@ -492,27 +591,6 @@
     "Specification": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "example": "2006ec5b-6a59-4649-a94a-c036f4f43b7c"
-        },
-        "name": {
-          "type": "string",
-          "example": "specification name"
-        },
-        "description": {
-          "type": "string",
-          "example": "Specification description sample"
-        },
-        "created_at": {
-          "type": "string",
-          "example": "2022-01-13T21:45:39.664Z"
-        }
-      }
-    },
-    "CreateSpecification": {
-      "type": "object",
-      "properties": {
         "name": {
           "type": "string",
           "example": "specification name"
@@ -523,7 +601,7 @@
         }
       }
     },
-    "Session": {
+    "SessionInput": {
       "type": "object",
       "properties": {
         "email": {
@@ -536,13 +614,22 @@
         }
       }
     },
+    "SessionOutput": {
+      "type": "object",
+      "properties": {
+        "refresh_token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHJlbnR4LmNvbSIsImlhdCI6MTYzOTkzMjM5OSwiZXhwIjoxNjQyNTI0Mzk5LCJzdWIiOiI0YmQzNzUyOS00NWMwLTQ2M2QtODAyZi00OWQ5NTgwOTk3M2UifQ.ZrU1A5tYvn4VGBVON01uT1La614yLS4ChUkgXoFdQmw"
+        },
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Mzk5MzIzOTksImV4cCI6MTYzOTkzMjQxNCwic3ViIjoiNGJkMzc1MjktNDVjMC00NjNkLTgwMmYtNDlkOTU4MDk5NzNlIn0.VxIdVQlBWDf4-7rPKtH9-Jc0FAlmwNlf5_XT60hTIxw"
+        }
+      }
+    },
     "User": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "example": "02aa2397-53ce-474e-843b-e2667b175be5"
-        },
         "name": {
           "type": "string",
           "example": "user name"
@@ -558,29 +645,16 @@
         "driver_license": {
           "type": "string",
           "example": "74406838899"
-        },
+        }
+      }
+    },
+    "UserAvatarUrl": {
+      "type": "object",
+      "properties": {
         "avatar_url": {
           "type": "string",
           "example": "http://localhost:3333/users/avatar/null"
         }
-      }
-    },
-    "CreateUser": {
-      "name": {
-        "type": "string",
-        "example": "user name"
-      },
-      "email": {
-        "type": "string",
-        "example": "user@rentx.com"
-      },
-      "password": {
-        "type": "string",
-        "example": "user password"
-      },
-      "driver_license": {
-        "type": "string",
-        "example": "25065203019"
       }
     },
     "UserAvatarImport": {
@@ -592,104 +666,34 @@
         }
       }
     },
+    "Id": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "da4d513b-c151-4c71-a322-00fd6f992583"
+        }
+      }
+    },
+    "CreatedAt": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "example": "2022-01-13T20:55:05.217Z"
+        }
+      }
+    },
+    "CarAvailable": {
+      "type": "object",
+      "properties": {
+        "available": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
     "Car": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "da4d513b-c151-4c71-a322-00fd6f992583"
-        },
-        "available": {
-          "type": "boolean",
-          "example": true
-        },
-        "name": {
-          "type": "string",
-          "example": "car name"
-        },
-        "description": {
-          "type": "string",
-          "example": "car description"
-        },
-        "daily_rate": {
-          "type": "number",
-          "example": 10
-        },
-        "license_plate": {
-          "type": "string",
-          "example": "XXX-9999"
-        },
-        "fine_amount": {
-          "type": "number",
-          "example": 100
-        },
-        "brand": {
-          "type": "string",
-          "example": "brand"
-        },
-        "category_id": {
-          "type": "string",
-          "example": "ea799039-5a59-4f55-88d5-86d01ec078d1"
-        },
-        "created_at": {
-          "type": "string",
-          "example": "2022-01-13T20:55:05.217Z"
-        }
-      }
-    },
-    "CarWithSpecifications": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "da4d513b-c151-4c71-a322-00fd6f992583"
-        },
-        "available": {
-          "type": "boolean",
-          "example": true
-        },
-        "name": {
-          "type": "string",
-          "example": "car name"
-        },
-        "description": {
-          "type": "string",
-          "example": "car description"
-        },
-        "daily_rate": {
-          "type": "number",
-          "example": 10
-        },
-        "license_plate": {
-          "type": "string",
-          "example": "XXX-9999"
-        },
-        "fine_amount": {
-          "type": "number",
-          "example": 100
-        },
-        "brand": {
-          "type": "string",
-          "example": "brand"
-        },
-        "category_id": {
-          "type": "string",
-          "example": "ea799039-5a59-4f55-88d5-86d01ec078d1"
-        },
-        "created_at": {
-          "type": "string",
-          "example": "2022-01-13T20:55:05.217Z"
-        },
-        "specifications": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/Specification"
-          }
-        }
-      }
-    },
-    "CreateCar": {
       "type": "object",
       "properties": {
         "name": {
