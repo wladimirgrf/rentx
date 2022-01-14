@@ -509,7 +509,9 @@
             "description": "Bad Request"
           }
         }
-      },
+      }
+    },
+    "/users/avatar": {
       "patch": {
         "tags": [
           "User"
@@ -537,8 +539,11 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Created"
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -564,7 +569,24 @@
                   "allOf": [
                     {"$ref": "#/definitions/Id"},
                     {"$ref": "#/definitions/User"},
-                    {"$ref": "#/definitions/UserAvatarUrl"}
+                    {
+                      "type": "object",
+                      "properties": {
+                        "avatar": {
+                          "type": "string",
+                          "example": "489411fbd1ede15dd9e4aeaa63f5dd14-download.jpeg"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "avatar_url": {
+                          "type": "string",
+                          "example": "http://localhost:3333/users/avatar/489411fbd1ede15dd9e4aeaa63f5dd14-download.jpeg"
+                        }
+                      }
+                    }
                   ]
                 }
               }
@@ -645,15 +667,6 @@
         "driver_license": {
           "type": "string",
           "example": "74406838899"
-        }
-      }
-    },
-    "UserAvatarUrl": {
-      "type": "object",
-      "properties": {
-        "avatar_url": {
-          "type": "string",
-          "example": "http://localhost:3333/users/avatar/null"
         }
       }
     },
