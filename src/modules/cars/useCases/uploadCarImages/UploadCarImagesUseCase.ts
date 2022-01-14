@@ -24,9 +24,9 @@ class UploadCarImagesUseCase {
   ) {}
 
   async execute({ car_id, images_name }: IRequest): Promise<void> {
-    const carFound = await this.carsRepository.findById(car_id);
+    const carExists = await this.carsRepository.findById(car_id);
 
-    if (!carFound) {
+    if (!carExists) {
       throw new AppError("Car does not exists!");
     }
 
