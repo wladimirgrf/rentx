@@ -32,6 +32,12 @@ class CreateRentalUseCase {
   }: IRequest): Promise<Rental> {
     const minimumHour = 24;
 
+    const carExists = await this.carsRepository.findById(car_id);
+
+    if (!carExists) {
+      throw new AppError("Car does not exists!");
+    }
+
     const carUnavailable = await this.rentalsRepository.findActiveRentalByCar(
       car_id
     );
