@@ -175,7 +175,13 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/definitions/CategoryImport"
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -452,7 +458,16 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/definitions/CarImages"
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
               }
             }
           }
@@ -510,7 +525,13 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/definitions/UserAvatarImport"
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -564,27 +585,6 @@
         "description": {
           "type": "string",
           "example": "Category description sample"
-        }
-      }
-    },
-    "CategoryImport": {
-      "type": "object",
-      "properties": {
-        "file": {
-          "type": "string",
-          "format": "binary"
-        }
-      }
-    },
-    "CarImages": {
-      "type": "object",
-      "properties": {
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "binary"
-          }
         }
       }
     },
@@ -654,15 +654,6 @@
         "avatar_url": {
           "type": "string",
           "example": "http://localhost:3333/users/avatar/null"
-        }
-      }
-    },
-    "UserAvatarImport": {
-      "type": "object",
-      "properties": {
-        "avatar": {
-          "type": "string",
-          "format": "binary"
         }
       }
     },
