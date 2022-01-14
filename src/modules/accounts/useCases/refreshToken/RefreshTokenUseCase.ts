@@ -33,9 +33,15 @@ class RefreshTokenUseCase {
       expires_refresh_token_days,
     } = auth;
 
-    const { email, sub } = verify(token, secret_refresh_token) as IPayload;
+    let payload: IPayload;
 
-    const user_id = sub;
+    try {
+      payload = verify(token, secret_refresh_token) as IPayload;
+    } catch (error) {
+      throw new AppError("Invalid token");
+    }
+
+    const user_id = payload.sub;
 
     const userToken =
       await this.usersTokensRepository.findByUserIdAndRefreshToken(
@@ -49,8 +55,8 @@ class RefreshTokenUseCase {
 
     await this.usersTokensRepository.deleteById(userToken.id);
 
-    const refresh_token = sign({ email }, secret_refresh_token, {
-      subject: sub,
+    const refresh_token = sign({ email: payload.email }, secret_refresh_token, {
+      subject: payload.sub,
       expiresIn: expires_in_refresh_token,
     });
 
