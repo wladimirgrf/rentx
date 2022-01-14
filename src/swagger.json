@@ -32,15 +32,17 @@
               "application/json": {
                 "schema": {
                   "allOf": [
-                    { 
+                    {
                       "type": "object",
                       "properties": {
                         "user": {
                           "$ref": "#/definitions/SessionInput"
-                        } 
+                        }
                       }
                     },
-                    { "$ref": "#/definitions/SessionOutput" }
+                    {
+                      "$ref": "#/definitions/SessionOutput"
+                    }
                   ]
                 }
               }
@@ -63,10 +65,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "type":"object",
+                "type": "object",
                 "properties": {
                   "token": {
-                    "type":"string",
+                    "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHJlbnR4LmNvbSIsImlhdCI6MTYzOTkzMjM5OSwiZXhwIjoxNjQyNTI0Mzk5LCJzdWIiOiI0YmQzNzUyOS00NWMwLTQ2M2QtODAyZi00OWQ5NTgwOTk3M2UifQ.ZrU1A5tYvn4VGBVON01uT1La614yLS4ChUkgXoFdQmw"
                   }
                 }
@@ -87,6 +89,189 @@
           },
           "400": {
             "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/rentals/user": {
+      "get": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "List the user rentals",
+        "description": "List the user rentals",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/Id"
+                      },
+                      {
+                        "$ref": "#/definitions/Rental"
+                      },
+                      {
+                        "$ref": "#/definitions/RentalDetail"
+                      },
+                      {
+                        "$ref": "#/definitions/CreatedAt"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "car": {
+                            "allOf": [
+                              {
+                                "$ref": "#/definitions/Id"
+                              },
+                              {
+                                "$ref": "#/definitions/CarAvailable"
+                              },
+                              {
+                                "$ref": "#/definitions/Car"
+                              },
+                              {
+                                "$ref": "#/definitions/CreatedAt"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/rentals": {
+      "post": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Create a new Rental",
+        "description": "Create a new Rental",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "expected_return_date": {
+                    "type": "string",
+                    "example": "2021-11-22T18:54:00.122Z"
+                  },
+                  "car_id": {
+                    "type": "string",
+                    "example": "1f7bf254-eee0-4aba-a6ca-82e8614d7bb2"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Id"
+                    },
+                    {
+                      "$ref": "#/definitions/Rental"
+                    },
+                    {
+                      "$ref": "#/definitions/CreatedAt"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/rentals/return/{id}": {
+      "put": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "End the Rental",
+        "description": "Finish the car rental process",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Rental id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Id"
+                    },
+                    {
+                      "$ref": "#/definitions/Rental"
+                    },
+                    {
+                      "$ref": "#/definitions/RentalDetail"
+                    },
+                    {
+                      "$ref": "#/definitions/CreatedAt"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -144,9 +329,15 @@
                   "type": "array",
                   "items": {
                     "allOf": [
-                      {"$ref": "#/definitions/Id"},
-                      {"$ref": "#/definitions/Category"},
-                      {"$ref": "#/definitions/CreatedAt"}
+                      {
+                        "$ref": "#/definitions/Id"
+                      },
+                      {
+                        "$ref": "#/definitions/Category"
+                      },
+                      {
+                        "$ref": "#/definitions/CreatedAt"
+                      }
                     ]
                   }
                 }
@@ -249,9 +440,15 @@
                   "type": "array",
                   "items": {
                     "allOf": [
-                      {"$ref": "#/definitions/Id"},
-                      {"$ref": "#/definitions/Specification"},
-                      {"$ref": "#/definitions/CreatedAt"}
+                      {
+                        "$ref": "#/definitions/Id"
+                      },
+                      {
+                        "$ref": "#/definitions/Specification"
+                      },
+                      {
+                        "$ref": "#/definitions/CreatedAt"
+                      }
                     ]
                   }
                 }
@@ -260,6 +457,54 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/cars/available": {
+      "get": {
+        "tags": [
+          "Car"
+        ],
+        "summary": "List all available cars",
+        "description": "List all available cars",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "query",
+            "description": "Category id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/Id"
+                      },
+                      {
+                        "$ref": "#/definitions/CarAvailable"
+                      },
+                      {
+                        "$ref": "#/definitions/Car"
+                      },
+                      {
+                        "$ref": "#/definitions/CreatedAt"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -292,10 +537,18 @@
               "application/json": {
                 "schema": {
                   "allOf": [
-                    {"$ref": "#/definitions/Id"},
-                    {"$ref": "#/definitions/CarAvailable"},
-                    {"$ref": "#/definitions/Car"},
-                    {"$ref": "#/definitions/CreatedAt"}
+                    {
+                      "$ref": "#/definitions/Id"
+                    },
+                    {
+                      "$ref": "#/definitions/CarAvailable"
+                    },
+                    {
+                      "$ref": "#/definitions/Car"
+                    },
+                    {
+                      "$ref": "#/definitions/CreatedAt"
+                    }
                   ]
                 }
               }
@@ -358,20 +611,34 @@
               "application/json": {
                 "schema": {
                   "allOf": [
-                    {"$ref": "#/definitions/Id"},
-                    {"$ref": "#/definitions/CarAvailable"},
-                    {"$ref": "#/definitions/Car"},
-                    {"$ref": "#/definitions/CreatedAt"},
-                    { 
+                    {
+                      "$ref": "#/definitions/Id"
+                    },
+                    {
+                      "$ref": "#/definitions/CarAvailable"
+                    },
+                    {
+                      "$ref": "#/definitions/Car"
+                    },
+                    {
+                      "$ref": "#/definitions/CreatedAt"
+                    },
+                    {
                       "type": "object",
                       "properties": {
                         "specifications": {
                           "type": "array",
                           "items": {
                             "allOf": [
-                              {"$ref": "#/definitions/Id"},
-                              {"$ref": "#/definitions/Specification"},
-                              {"$ref": "#/definitions/CreatedAt"}
+                              {
+                                "$ref": "#/definitions/Id"
+                              },
+                              {
+                                "$ref": "#/definitions/Specification"
+                              },
+                              {
+                                "$ref": "#/definitions/CreatedAt"
+                              }
                             ]
                           }
                         }
@@ -387,46 +654,6 @@
           },
           "401": {
             "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/cars/available": {
-      "get": {
-        "tags": [
-          "Car"
-        ],
-        "summary": "List all available cars",
-        "description": "List all available cars",
-        "parameters": [
-          {
-            "name": "category_id",
-            "in": "query",
-            "description": "Category id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "allOf": [
-                      {"$ref": "#/definitions/Id"},
-                      {"$ref": "#/definitions/CarAvailable"},
-                      {"$ref": "#/definitions/Car"},
-                      {"$ref": "#/definitions/CreatedAt"}
-                    ]
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -481,6 +708,84 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/password/forgot": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Forgot password",
+        "description": "Receive an email for the password recovery",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "user@rentx.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/password/reset": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Reset User password",
+        "description": "Reset User password",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token received by Forgot password",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "user password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -567,8 +872,12 @@
               "application/json": {
                 "schema": {
                   "allOf": [
-                    {"$ref": "#/definitions/Id"},
-                    {"$ref": "#/definitions/User"},
+                    {
+                      "$ref": "#/definitions/Id"
+                    },
+                    {
+                      "$ref": "#/definitions/User"
+                    },
                     {
                       "type": "object",
                       "properties": {
@@ -591,84 +900,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    }, 
-    "/password/forgot": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Forgot password",
-        "description": "Receive an email for the password recovery",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "user@rentx.com"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/password/reset": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Reset User password",
-        "description": "Reset User password",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "query",
-            "description": "token received by Forgot password",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "password": {
-                    "type": "string",
-                    "example": "user password"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
         }
       }
@@ -748,6 +979,44 @@
         }
       }
     },
+    "Rental": {
+      "type": "object",
+      "properties": {
+        "expected_return_date": {
+          "type": "string",
+          "example": "2021-11-22T18:54:00.122Z"
+        },
+        "user_id": {
+          "type": "string",
+          "example": "1f7bf254-eee0-4aba-a6ca-82e8614d7bb2"
+        },
+        "car_id": {
+          "type": "string",
+          "example": "1f7bf254-eee0-4aba-a6ca-82e8614d7bb2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2022-01-13T20:55:05.217Z"
+        }
+      }
+    },
+    "RentalDetail": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "number",
+          "example": 100
+        },
+        "start_date": {
+          "type": "string",
+          "example": "2022-01-14T20:07:11.762Z"
+        },
+        "end_date": {
+          "type": "string",
+          "example": "2022-01-14T20:07:11.762Z"
+        }
+      }
+    },
     "Id": {
       "type": "object",
       "properties": {
@@ -771,7 +1040,7 @@
       "properties": {
         "available": {
           "type": "boolean",
-          "example": true
+          "example": false
         }
       }
     },
