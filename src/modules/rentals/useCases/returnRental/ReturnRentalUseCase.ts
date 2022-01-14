@@ -28,11 +28,12 @@ class ReturnRentalUseCase {
     const minimum_daily = 1;
 
     const rental = await this.rentalsRepository.findById(id);
-    const car = await this.carsRepository.findById(rental.car_id);
 
     if (!rental) {
       throw new AppError("Rental does not exists");
     }
+
+    const car = await this.carsRepository.findById(rental.car_id);
 
     if (user_id !== rental.user_id) {
       throw new AppError("Unauthorized rental return", 401);
