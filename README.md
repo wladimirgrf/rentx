@@ -48,10 +48,10 @@ $ npm install
 
 **Environment configuration**
 ```bash
-# Make a copy of '.env.example'
+# Make a copy of '.env.sample'
 # Fill both files with YOUR environment variables.
-$ cp .env.example .env
-$ cp .env.example .env.test
+$ cp .env.sample .env
+$ cp .env.sample .env.test
 ```
 
 **Run the containers**
