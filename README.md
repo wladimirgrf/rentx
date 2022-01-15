@@ -29,4 +29,78 @@ Below the technologies, used to build this API:
 |<img height="85" src=".github/assets/swagger.svg"> | <img alt="swagger version" src="https://img.shields.io/badge/swagger-v4.3-blue?color=%238257E5&labelColor=000000"> |
 
 
+## ▶️ Getting started
+
+**Requirements**
+
+- [Node.js](https://nodejs.org/en/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+**Clone the project**
+```bash
+$ git clone https://github.com/wladimirgrf/rentx.git && cd rentx
+```
+
+**Install the Project dependencies**
+```bash
+$ npm install
+```
+
+**Environment configuration**
+```bash
+# Make a copy of '.env.example'
+# Fill both files with YOUR environment variables.
+$ cp .env.example .env
+$ cp .env.example .env.test
+```
+
+**Run the containers**
+```bash
+$ docker-compose up -d
+```
+
+**Migrations**
+```bash
+$ npm run typeorm migration:run
+```
+
+**Launch the Application**
+```bash
+$ npm run dev
+```
+
+>The API will be launch at `http://localhost:3333/`<br>
+>All routes and documentation (_available services_) are on `http://localhost:3333/api-docs`
+
+
+## 🤝 Contributing
+
+**Fork the repository and clone your fork**
+
+```bash
+$ git clone fork-url && cd certification
+```
+
+**Create a branch for your edits**
+```bash
+$ git checkout -b new-feature
+```
+
+**Make the commit with your changes**
+```bash
+$ git commit -m 'feat: New feature'
+```
+
+**Send the code to your remote branch**
+```bash
+$ git push origin new-feature
+```
+
+Create a pull request with your version. <br>
+After your pull request is merged, you can delete your branch.
+
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
