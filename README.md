@@ -29,6 +29,9 @@ Below the technologies, used to build this API:
 |<img height="60" src="https://www.vectorlogo.zone/logos/handlebarsjs/handlebarsjs-ar21.svg"> | <img alt="handlebars version" src="https://img.shields.io/badge/handlebars-v4.7-blue?color=%238257E5&labelColor=000000"> |
 |<img height="85" src=".github/assets/swagger.svg"> | <img alt="swagger version" src="https://img.shields.io/badge/swagger-v4.3-blue?color=%238257E5&labelColor=000000"> |
 
+## 🧱 ERM
+
+![](.github/assets/diagram.png)
 
 ## ▶️ Getting started
 
@@ -71,7 +74,7 @@ $ npm run dev
 ```
 
 >The API will be launch at `http://localhost:3333/`<br>
->All routes and documentation (_available services_) are on `http://localhost:3333/api-docs`
+>Documentation available at `http://localhost:3333/api-docs`
 
 
 ## 🤝 Contributing
