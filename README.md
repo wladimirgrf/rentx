@@ -78,7 +78,7 @@ $ npm run dev
 **Fork the repository and clone your fork**
 
 ```bash
-$ git clone fork-url && cd certification
+$ git clone fork-url && cd rentx
 ```
 
 **Create a branch for your edits**
