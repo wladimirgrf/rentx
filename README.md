@@ -101,7 +101,7 @@ $ git push origin new-feature
 ```
 
 Create a pull request with your version. <br>
-After your pull request is merged, you can delete your branch
+After your pull request is merged, you can delete your branch.
 
 
 ## 📝 License
